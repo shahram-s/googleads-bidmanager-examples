@@ -29,7 +29,7 @@ import argparse
 from datetime import datetime
 from datetime import timedelta
 import os
-import urllib2
+import urllib
 import util
 
 
@@ -67,22 +67,22 @@ def main(doubleclick_bid_manager, output_dir, query_id, report_window):
         save_report_to_file(output_dir, response['queryId'],
                             (response['metadata']
                              ['googleCloudStoragePathForLatestReport']))
-        print 'Download complete.'
+        print ('Download complete.')
       else:
         print('No reports for queryId "%s" in the last %s hours.' %
               (response['queryId'], report_window))
     except KeyError:
-      print'No report found for queryId "%s".' % query_id
+      print('No report found for queryId "%s".' % query_id)
   else:
     # Call the API, getting a list of queries.
     response = doubleclick_bid_manager.queries().listqueries().execute()
     # Print queries out.
-    print 'Id\t\tName'
+    print ('Id\t\tName')
     if 'queries' in response:
       for q in response['queries']:
-        print '%s\t%s' % (q['queryId'], q['metadata']['title'])
+        print ('%s\t%s' % (q['queryId'], q['metadata']['title']))
     else:
-      print 'No queries exist.'
+      print ('No queries exist.')
 
 
 def is_in_report_window(run_time_ms, report_window):
@@ -113,7 +113,7 @@ def save_report_to_file(output_dir, query_id, report_url):
     output_dir = os.path.expanduser(output_dir)
   output_fmt = output_dir + '/%s.csv'
   with(open(output_fmt % query_id, 'wb')) as handle:
-    handle.write(urllib2.urlopen(report_url).read())
+    handle.write(urllib.request.urlopen(report_url).read())
 
 
 if __name__ == '__main__':
@@ -122,7 +122,7 @@ if __name__ == '__main__':
   QUERY_ID = args.query_id
   if not QUERY_ID:
     try:
-      QUERY_ID = int(raw_input('Enter the query id or press enter to '
+      QUERY_ID = int(input('Enter the query id or press enter to '
                                'list queries: '))
     except ValueError:
       QUERY_ID = 0

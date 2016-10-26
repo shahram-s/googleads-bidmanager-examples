@@ -59,9 +59,9 @@ def main(doubleclick_bid_manager, body):
 
   if 'uploadStatus' in response and 'errors' in response['uploadStatus']:
     for error in response['uploadStatus']['errors']:
-      print error
+      print (error)
   else:
-    print 'Upload Successful.'
+    print ('Upload Successful.')
 
 
 if __name__ == '__main__':

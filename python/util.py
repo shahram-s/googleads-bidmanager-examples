@@ -64,7 +64,7 @@ def _get_credentials(path, client_id=None, client_secret=None):
         _GOOGLE_OAUTH2_ENDPOINT,
         _USER_AGENT)
   except IOError:
-    print 'Failed to retrieve credentials, stepping through OAuth2 flow.'
+    print ('Failed to retrieve credentials, stepping through OAuth2 flow.')
     credentials = _handle_oauth2_flow(client_id, client_secret)
     _save_auth_yaml(path, credentials)
   return credentials
@@ -89,13 +89,13 @@ def _handle_oauth2_flow(client_id, client_secret):
 
   print ('Log into the Google Account you use to access your DBM account'
          'and go to the following URL: \n%s\n' % (authorize_url))
-  print 'After approving the token enter the verification code (if specified).'
-  code = raw_input('Code: ').strip()
+  print ('After approving the token enter the verification code (if specified).')
+  code = input('Code: ').strip()
 
   try:
     credentials = flow.step2_exchange(code)
-  except client.FlowExchangeError, e:
-    print 'Authentication has failed: %s' % e
+  except client.FlowExchangeError as e:
+    print ('Authentication has failed: %s' % e)
     sys.exit(1)
   else:
     return credentials
@@ -114,7 +114,7 @@ def _load_auth_yaml(path):
     path = os.path.expanduser(path)
   with open(path, 'rb') as handle:
     auth_data = yaml.load(handle.read())
-    print 'Loaded credentials from "%s".' % path
+    print ('Loaded credentials from "%s".' % path)
     return auth_data
 
 
@@ -132,7 +132,7 @@ def _save_auth_yaml(path, credentials):
         'client_id': credentials.client_id,
         'client_secret': credentials.client_secret,
         'refresh_token': credentials.refresh_token}))
-  print 'Saved credentials to "%s".' % path
+  print ('Saved credentials to "%s".' % path)
 
 
 def get_service(path=_DEFAULT_AUTH_PATH, client_id=None, client_secret=None):

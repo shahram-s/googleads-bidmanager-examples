@@ -61,7 +61,7 @@ def main(doubleclick_bid_manager, file_path, body):
     # Call the API, getting the (optionally filtered) list of line items.
     # Then write the contents of the response to a CSV file.
     handler.write(request.execute()['lineItems'].encode('utf-8'))
-    print 'Download complete.'
+    print ('Download complete.')
 
 
 if __name__ == '__main__':
@@ -78,11 +78,11 @@ if __name__ == '__main__':
     FILE_PATH = os.path.expanduser(path)
   if args.filter_ids:
     request_body['filterIds'] = args.filter_ids.split(',')
-  if args.filter_type.upper() in valid_filter_types:
-    request_body['filterType'] = args.filter_type
-  else:
-      raise ValueError('Invalid filterType. Acceptable values: %s' %
-                       valid_filter_types)
+  # if args.filter_type in valid_filter_types:
+  #   request_body['filterType'] = args.filter_type
+  # else:
+  #     raise ValueError('Invalid filterType. Acceptable values: %s' %
+  #                      valid_filter_types)
 
   main(util.get_service(
       client_id=args.client_id, client_secret=args.client_secret),
