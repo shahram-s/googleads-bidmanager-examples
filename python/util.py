@@ -113,7 +113,7 @@ def _load_auth_yaml(path):
   if not os.path.isabs(path):
     path = os.path.expanduser(path)
   with open(path, 'rb') as handle:
-    auth_data = yaml.load(handle.read())
+    auth_data = yaml.load(handle.read().decode('utf-8'))
     print ('Loaded credentials from "%s".' % path)
     return auth_data
 
@@ -131,7 +131,7 @@ def _save_auth_yaml(path, credentials):
     handle.write(yaml.dump({
         'client_id': credentials.client_id,
         'client_secret': credentials.client_secret,
-        'refresh_token': credentials.refresh_token}))
+        'refresh_token': credentials.refresh_token}).encode('utf-8'))
   print ('Saved credentials to "%s".' % path)
 
 
