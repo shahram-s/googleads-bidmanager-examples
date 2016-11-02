@@ -31,7 +31,7 @@ import yaml
 _CLIENT_ID = 'INSERT_CLIENT_ID_HERE'
 _CLIENT_SECRET = 'INSERT_CLIENT_SECRET'
 # Default path to dbm_sample.yaml, containing authorization credentials.
-_DEFAULT_AUTH_PATH = os.path.join(os.path.expanduser('~'), 'dbm_sample.yaml')
+_DEFAULT_AUTH_PATH = os.path.join(os.path.expanduser('~'), 'adzai_dbm_cred.yaml')
 # The web address for generating OAuth 2.0 credentials at Google.
 _GOOGLE_OAUTH2_ENDPOINT = 'https://accounts.google.com/o/oauth2/token'
 # DoubleClick Bid Manager REST API authorization scope.
@@ -164,3 +164,28 @@ def get_service(path=_DEFAULT_AUTH_PATH, client_id=None, client_secret=None):
   return build('doubleclickbidmanager', _VERSION,
                http=credentials.authorize(httplib2.Http()))
 
+
+# Print iterations progress
+def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, barLength = 100):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        barLength   - Optional  : character length of bar (Int)
+    """
+    formatStr       = "{0:." + str(decimals) + "f}"
+    percents        = formatStr.format(100 * (iteration / float(total)))
+    filledLength    = int(round(barLength * iteration / float(total)))
+    bar             = '█' * filledLength + '-' * (barLength - filledLength)
+    sys.stdout.write('\r%s |%s| %s%s %s' % (prefix, bar, percents, '%', suffix)),
+    if iteration == total:
+        sys.stdout.write('\n')
+    sys.stdout.flush()
+
+
+def reportDownloadProgress(blocknum, bs, size):
+    printProgress(blocknum*bs, size, prefix='Progress:', suffix='Complete', barLength=50)
